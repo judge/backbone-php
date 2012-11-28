@@ -21,7 +21,6 @@
               <li><a href="#list">List</a></li>
               <li><a href="#add">Add</a></li>
               <li><a href="#search">Search</a></li>
-              </li>
             </ul>
           </div>
         </div>
@@ -98,7 +97,7 @@
             <table id="contactTable" class="table table-striped">
               <thead>
                 <tr>
-                  <th>Id</th>
+                  <th>Id <a href="#<%= contacts.sort %>" class="sort" data-sort="<%= contacts.sort %>">sort</a></th>
                   <th>Name</th>
                   <th>Email</th>
                   <th>Phone</th>
@@ -111,7 +110,7 @@
                 <% if( $.isEmptyObject(contacts) ){ %>
                   <tr><td colspan='5'>No record found</td></tr>
                 <% } else {
-                  $.each(contacts,function() {
+                  $.each(contacts.contacts,function() {
                 %>
                   <tr data-id=<%= this.id %>>
                     <td><%= this.id %></td>

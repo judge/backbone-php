@@ -91,10 +91,12 @@ App.contactCollection = Backbone.Collection.extend({
 App.addView = Backbone.View.extend({
   el: 'div.abPanel',
   template:  _.template($('#addContactTemplate').html()),
+
   events: {
     'submit form#addContactForm': 'addContactEvent'
   },
-  initialize : function(){
+
+  initialize : function() {
     _.bindAll(this,'addPage','addContactEvent');
   },
 
@@ -141,8 +143,13 @@ App.listView = Backbone.View.extend({
   template: _.template($('#listContactTemplate').html()),
 
   initialize : function() {
-    _.bindAll(this,'listPage','render');
+    _.bindAll( this, 'listPage', 'render' );
   },
+
+  events: {
+    'click .sort': 'sortContacts'
+  },
+
   render: function(response) {
     var self = this;
 
@@ -155,6 +162,7 @@ App.listView = Backbone.View.extend({
       $(this).find('a.edit').click(function() {
         self.editContact(id);
       });
+
       $(this).find('a.delete').click(function() {
         self.deleteContact(id);
       });
@@ -163,12 +171,25 @@ App.listView = Backbone.View.extend({
 
   }, // end of render
 
+  sortContacts : function ( event ) {
+    var self = this;
+    var $el = $(event.target);
+    var sort = $el.data('sort');
+
+    App.contactcollection.fetch({
+      data: $.param({ sort: sort }),
+      success: function (collection, response) {
+        self.render( response );
+      }
+    });
+  },
+
   listPage: function(querystring) {
     var self = this;
 
     App.contactcollection.fetch({
       data: querystring,
-      success: function(collection , response) {
+      success: function( collection, response ) {
         self.render(response);
       }
     });
